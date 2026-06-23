@@ -1,0 +1,11 @@
+# Ignore executables
+blc_full.out
+blc_reader.out
+theorem_extractor.out
+compress_all.out
+kolmogorov.out
+solomonoff.out
+terminal_blc_theorem_extractor.out
+
+# Ignore OS-generated files
+.DS_Store
