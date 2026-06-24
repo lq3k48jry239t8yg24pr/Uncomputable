@@ -8,6 +8,7 @@
 #include <filesystem>
 #include <algorithm>
 #include <thread>
+#include <pthread.h>
 #include <mutex>
 #include <condition_variable>
 #include <queue>
@@ -89,18 +90,58 @@ WHNFResult eval_whnf(Node* start_node, Env* start_env, Arena& arena, uint64_t& s
 }
 
 Node* normalize(Node* node, Env* env, Arena& arena, int depth, uint64_t& steps, uint64_t max_steps) {
-    if (steps >= max_steps) return nullptr;
-    WHNFResult res = eval_whnf(node, env, arena, steps, max_steps);
-    if (!res.node) return nullptr;
-    if (res.node->kind == ABS) {
-        int next_depth = depth + 1;
-        Env* next_env = arena.alloc_env(arena.alloc_thunk(arena.alloc_node(VAR, next_depth), nullptr), res.env);
-        return arena.alloc_node(ABS, 0, normalize(res.node->l, next_env, arena, next_depth, steps, max_steps));
-    } else {
-        Node* curr = (res.node->val > 0) ? arena.alloc_node(VAR, depth - res.node->val + 1) : res.node;
-        for (Thunk* arg_t : res.args) curr = arena.alloc_node(APP, 0, curr, normalize(arg_t->node, arg_t->env, arena, depth, steps, max_steps));
-        return curr;
+    struct Task {
+        enum Kind { NORMALIZE, BUILD_ABS, BUILD_APP };
+        Kind kind;
+        Node* node;
+        Env* env;
+        int depth;
+        Node* curr_app;
+        std::vector<Thunk*> args;
+        size_t arg_idx;
+    };
+    std::vector<Task> task_stack;
+    std::vector<Node*> result_stack;
+    task_stack.push_back({Task::NORMALIZE, node, env, depth, nullptr, {}, 0});
+    while (!task_stack.empty()) {
+        Task task = task_stack.back();
+        task_stack.pop_back();
+        if (task.kind == Task::NORMALIZE) {
+            if (steps >= max_steps) return nullptr;
+            WHNFResult res = eval_whnf(task.node, task.env, arena, steps, max_steps);
+            if (!res.node) return nullptr;
+            if (res.node->kind == ABS) {
+                task_stack.push_back({Task::BUILD_ABS, nullptr, nullptr, 0, nullptr, {}, 0});
+                int next_depth = task.depth + 1;
+                Env* next_env = arena.alloc_env(arena.alloc_thunk(arena.alloc_node(VAR, next_depth), nullptr), res.env);
+                task_stack.push_back({Task::NORMALIZE, res.node->l, next_env, next_depth, nullptr, {}, 0});
+            } else {
+                Node* curr = (res.node->val > 0) ? arena.alloc_node(VAR, task.depth - res.node->val + 1) : res.node;
+                if (res.args.empty()) {
+                    result_stack.push_back(curr);
+                } else {
+                    task_stack.push_back({Task::BUILD_APP, nullptr, nullptr, task.depth, curr, res.args, 0});
+                    task_stack.push_back({Task::NORMALIZE, res.args[0]->node, res.args[0]->env, task.depth, nullptr, {}, 0});
+                }
+            }
+        } else if (task.kind == Task::BUILD_ABS) {
+            Node* res_node = result_stack.back();
+            result_stack.pop_back();
+            result_stack.push_back(arena.alloc_node(ABS, 0, res_node));
+        } else if (task.kind == Task::BUILD_APP) {
+            Node* arg_res = result_stack.back();
+            result_stack.pop_back();
+            task.curr_app = arena.alloc_node(APP, 0, task.curr_app, arg_res);
+            task.arg_idx++;
+            if (task.arg_idx < task.args.size()) {
+                task_stack.push_back(task);
+                task_stack.push_back({Task::NORMALIZE, task.args[task.arg_idx]->node, task.args[task.arg_idx]->env, task.depth, nullptr, {}, 0});
+            } else {
+                result_stack.push_back(task.curr_app);
+            }
+        }
     }
+    return result_stack.back();
 }
 
 Node* parse_blc(const std::string& bits, size_t& idx, Arena& arena) {
@@ -118,7 +159,7 @@ std::string decode_binary_list(Node* n) {
     std::string res = "";
     while (n && n->kind == ABS && n->l->kind == APP && n->l->l->kind == APP && n->l->l->l->kind == VAR && n->l->l->l->val == 1) {
         Node* H = n->l->l->r;
-        if (H->kind == ABS && H->l->kind == ABS && H->l->l->kind == VAR) {
+        if (H && H->kind == ABS && H->l->kind == ABS && H->l->l->kind == VAR) {
             if (H->l->l->val == 2) res += "0"; else if (H->l->l->val == 1) res += "1"; else break;
         } else break;
         n = n->l->r;
@@ -160,22 +201,26 @@ class TaskQueue {
 private:
     std::queue<ProgramTask> tasks;
     std::mutex mutex;
-    std::condition_variable cond;
+    std::condition_variable cond_pop;
+    std::condition_variable cond_push;
     bool done = false;
+    const size_t MAX_SIZE = 1000;
 public:
     void push(ProgramTask task) {
         {
-            std::lock_guard<std::mutex> lock(mutex);
+            std::unique_lock<std::mutex> lock(mutex);
+            cond_push.wait(lock, [&] { return tasks.size() < MAX_SIZE; });
             tasks.push(std::move(task));
         }
-        cond.notify_one();
+        cond_pop.notify_one();
     }
     bool pop(ProgramTask& task) {
         std::unique_lock<std::mutex> lock(mutex);
-        cond.wait(lock, [&] { return done || !tasks.empty(); });
+        cond_pop.wait(lock, [&] { return done || !tasks.empty(); });
         if (tasks.empty()) return false;
         task = std::move(tasks.front());
         tasks.pop();
+        cond_push.notify_one();
         return true;
     }
     void finish() {
@@ -183,7 +228,8 @@ public:
             std::lock_guard<std::mutex> lock(mutex);
             done = true;
         }
-        cond.notify_all();
+        cond_pop.notify_all();
+        cond_push.notify_all();
     }
 };
 
@@ -226,6 +272,24 @@ public:
     Arena arena;
     ScopedArena(size_t max_elems) : arena(max_elems) {}
 };
+
+struct WorkerContext {
+    TaskQueue* task_queue;
+    ResultCollector* collector;
+    int id;
+};
+
+void* worker_thread_entry(void* arg) {
+    WorkerContext* ctx = static_cast<WorkerContext*>(arg);
+    ScopedArena local_arena(50000);
+    ProgramTask task;
+    while (ctx->task_queue->pop(task)) {
+        EvalResult res = check_program_output(task.program, local_arena.arena);
+        ctx->collector->submit(task.index, ProgramResult{task.len, std::move(task.program), std::move(res), task.index});
+    }
+    delete ctx;
+    return nullptr;
+}
 
 // --- ROADMAP PARSER FOR PRUNING ---
 size_t get_expr_len(const std::string& bits, size_t idx) {
@@ -316,8 +380,8 @@ void generate_dfs(int n, int depth, std::string& current, const std::string& res
 }
 
 int main() {
-    int max_length = 41;
-    const int num_threads = 4;
+    int max_length = 43;
+    const int num_threads = 3;
     fs::create_directory("blc_dumps");
 
     int start_len = 1;
@@ -353,21 +417,19 @@ int main() {
 
         TaskQueue task_queue;
         ResultCollector collector;
-        std::atomic<size_t> task_index(0);
+        std::atomic<std::size_t> task_index(0);
 
-        auto worker = [&](int) {
-            ScopedArena local_arena(50000);
-            ProgramTask task;
-            while (task_queue.pop(task)) {
-                EvalResult res = check_program_output(task.program, local_arena.arena);
-                collector.submit(task.index, ProgramResult{task.len, std::move(task.program), std::move(res), task.index});
-            }
-        };
+        const size_t STACK_SIZE = 8 * 1024 * 1024; // 8MB
+        pthread_attr_t attr;
+        pthread_attr_init(&attr);
+        pthread_attr_setstacksize(&attr, STACK_SIZE);
 
-        std::vector<std::thread> workers;
+        std::vector<pthread_t> workers(num_threads);
         for (int i = 0; i < num_threads; ++i) {
-            workers.emplace_back(worker, i);
+            WorkerContext* ctx = new WorkerContext{&task_queue, &collector, i};
+            pthread_create(&workers[i], &attr, worker_thread_entry, ctx);
         }
+        pthread_attr_destroy(&attr);
 
         std::atomic<uint64_t> progs_since_save(0);
         std::string last_saved_program = resume_string;
@@ -417,7 +479,7 @@ int main() {
 
         task_queue.finish();
         for (auto& t : workers) {
-            if (t.joinable()) t.join();
+            pthread_join(t, nullptr);
         }
 
         collector.finish();

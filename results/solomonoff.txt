@@ -3,126 +3,126 @@
 # Format: output	new_contribution	cumulative_prior
 # NOTE: We approximate the prior using weight 2^{-length} for each halting output program. Also, each value is normalized and the actual value is the value shown minus 232.
 
-=== File: 1.bin (length=1) ===
+=== File: 1.bin.gz (length=1) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 2.bin (length=2) ===
+=== File: 2.bin.gz (length=2) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 3.bin (length=3) ===
+=== File: 3.bin.gz (length=3) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 4.bin (length=4) ===
+=== File: 4.bin.gz (length=4) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 5.bin (length=5) ===
+=== File: 5.bin.gz (length=5) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 6.bin (length=6) ===
+=== File: 6.bin.gz (length=6) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 7.bin (length=7) ===
+=== File: 7.bin.gz (length=7) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 8.bin (length=8) ===
+=== File: 8.bin.gz (length=8) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 9.bin (length=9) ===
+=== File: 9.bin.gz (length=9) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 10.bin (length=10) ===
+=== File: 10.bin.gz (length=10) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 11.bin (length=11) ===
+=== File: 11.bin.gz (length=11) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 12.bin (length=12) ===
+=== File: 12.bin.gz (length=12) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 13.bin (length=13) ===
+=== File: 13.bin.gz (length=13) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 14.bin (length=14) ===
+=== File: 14.bin.gz (length=14) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 15.bin (length=15) ===
+=== File: 15.bin.gz (length=15) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 16.bin (length=16) ===
+=== File: 16.bin.gz (length=16) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 17.bin (length=17) ===
+=== File: 17.bin.gz (length=17) ===
 Records processed: 0
 Halting outputs: 0
 Non-halting records: 0
 Total cumulative prior log2 mass: -inf
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 
-=== File: 18.bin (length=18) ===
+=== File: 18.bin.gz (length=18) ===
 Records processed: 2
 Halting outputs: 2
 Non-halting records: 0
@@ -130,7 +130,7 @@ Total cumulative prior log2 mass: -17.000000
 New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
 1	-17.000000	-17.000000	2
 
-=== File: 19.bin (length=19) ===
+=== File: 19.bin.gz (length=19) ===
 Records processed: 3
 Halting outputs: 3
 Non-halting records: 0
@@ -139,7 +139,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 1	-18.000000	-16.415037	2
 0	-19.000000	-19.000000	1
 
-=== File: 20.bin (length=20) ===
+=== File: 20.bin.gz (length=20) ===
 Records processed: 3
 Halting outputs: 3
 Non-halting records: 0
@@ -148,7 +148,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 1	-19.000000	-16.192645	2
 0	-20.000000	-18.415037	1
 
-=== File: 21.bin (length=21) ===
+=== File: 21.bin.gz (length=21) ===
 Records processed: 3
 Halting outputs: 3
 Non-halting records: 0
@@ -157,7 +157,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 1	-20.000000	-16.093109	2
 0	-21.000000	-18.192645	1
 
-=== File: 22.bin (length=22) ===
+=== File: 22.bin.gz (length=22) ===
 Records processed: 9
 Halting outputs: 9
 Non-halting records: 0
@@ -166,7 +166,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 1	-19.000000	-15.912537	8
 0	-22.000000	-18.093109	1
 
-=== File: 23.bin (length=23) ===
+=== File: 23.bin.gz (length=23) ===
 Records processed: 20
 Halting outputs: 20
 Non-halting records: 0
@@ -175,7 +175,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 1	-19.000000	-15.752072	16
 0	-21.000000	-17.912537	4
 
-=== File: 24.bin (length=24) ===
+=== File: 24.bin.gz (length=24) ===
 Records processed: 57
 Halting outputs: 57
 Non-halting records: 0
@@ -184,7 +184,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 1	-18.385290	-15.536476	49
 0	-21.000000	-17.752072	8
 
-=== File: 25.bin (length=25) ===
+=== File: 25.bin.gz (length=25) ===
 Records processed: 101
 Halting outputs: 101
 Non-halting records: 0
@@ -193,7 +193,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 1	-18.771181	-15.390821	75
 0	-20.299560	-17.524267	26
 
-=== File: 26.bin (length=26) ===
+=== File: 26.bin.gz (length=26) ===
 Records processed: 164
 Halting outputs: 164
 Non-halting records: 0
@@ -202,7 +202,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 1	-19.034216	-15.279756	125
 0	-20.714598	-17.374291	39
 
-=== File: 27.bin (length=27) ===
+=== File: 27.bin.gz (length=27) ===
 Records processed: 245
 Halting outputs: 245
 Non-halting records: 0
@@ -211,7 +211,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 1	-19.500154	-15.204366	181
 0	-21.000000	-17.261908	64
 
-=== File: 28.bin (length=28) ===
+=== File: 28.bin.gz (length=28) ===
 Records processed: 472
 Halting outputs: 472
 Non-halting records: 0
@@ -220,7 +220,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 1	-19.433946	-15.129443	379
 0	-21.460841	-17.185418	93
 
-=== File: 29.bin (length=29) ===
+=== File: 29.bin.gz (length=29) ===
 Records processed: 907
 Halting outputs: 907
 Non-halting records: 0
@@ -229,7 +229,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 1	-19.524267	-15.062442	712
 0	-21.392670	-17.109356	195
 
-=== File: 30.bin (length=30) ===
+=== File: 30.bin.gz (length=30) ===
 Records processed: 1921
 Halting outputs: 1921
 Non-halting records: 0
@@ -238,7 +238,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 1	-19.397301	-14.992666	1555
 0	-21.484300	-17.041447	366
 
-=== File: 31.bin (length=31) ===
+=== File: 31.bin.gz (length=31) ===
 Records processed: 3604
 Halting outputs: 3604
 Non-halting records: 0
@@ -247,7 +247,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 1	-19.553434	-14.932797	2791
 0	-21.332888	-16.969591	813
 
-=== File: 32.bin (length=32) ===
+=== File: 32.bin.gz (length=32) ===
 Records processed: 6509
 Halting outputs: 6509
 Non-halting records: 0
@@ -257,7 +257,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 0	-21.482331	-16.907738	1466
 11	-31.000000	-31.000000	2
 
-=== File: 33.bin (length=33) ===
+=== File: 33.bin.gz (length=33) ===
 Records processed: 11123
 Halting outputs: 11123
 Non-halting records: 0
@@ -269,7 +269,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 10	-32.000000	-32.000000	2
 01	-33.000000	-33.000000	1
 
-=== File: 34.bin (length=34) ===
+=== File: 34.bin.gz (length=34) ===
 Records processed: 20430
 Halting outputs: 20430
 Non-halting records: 0
@@ -282,7 +282,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 01	-33.000000	-32.000000	2
 00	-34.000000	-34.000000	1
 
-=== File: 35.bin (length=35) ===
+=== File: 35.bin.gz (length=35) ===
 Records processed: 37791
 Halting outputs: 37791
 Non-halting records: 0
@@ -295,7 +295,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 01	-33.415037	-31.540568	3
 00	-35.000000	-33.415037	1
 
-=== File: 36.bin (length=36) ===
+=== File: 36.bin.gz (length=36) ===
 Records processed: 72870
 Halting outputs: 72870
 Non-halting records: 0
@@ -308,7 +308,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 01	-34.415037	-31.356144	3
 00	-34.000000	-32.678072	4
 
-=== File: 37.bin (length=37) ===
+=== File: 37.bin.gz (length=37) ===
 Records processed: 136625
 Halting outputs: 136625
 Non-halting records: 0
@@ -321,7 +321,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 01	-34.678072	-31.218640	5
 00	-35.415037	-32.476438	3
 
-=== File: 38.bin (length=38) ===
+=== File: 38.bin.gz (length=38) ===
 Records processed: 253907
 Halting outputs: 253907
 Non-halting records: 0
@@ -334,7 +334,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 01	-34.192645	-31.045804	14
 00	-34.540568	-32.167110	11
 
-=== File: 39.bin (length=39) ===
+=== File: 39.bin.gz (length=39) ===
 Records processed: 459821
 Halting outputs: 459821
 Non-halting records: 0
@@ -348,7 +348,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 00	-35.000000	-31.977632	16
 111	-39.000000	-39.000000	1
 
-=== File: 40.bin (length=40) ===
+=== File: 40.bin.gz (length=40) ===
 Records processed: 846565
 Halting outputs: 846565
 Non-halting records: 0
@@ -363,7 +363,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 111	-39.000000	-38.000000	2
 000	-40.000000	-40.000000	1
 
-=== File: 41.bin (length=41) ===
+=== File: 41.bin.gz (length=41) ===
 Records processed: 1562240
 Halting outputs: 1562240
 Non-halting records: 0
@@ -378,7 +378,7 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 111	-40.000000	-37.678072	2
 000	-41.000000	-39.415037	1
 
-=== File: 42.bin (length=42) ===
+=== File: 42.bin.gz (length=42) ===
 Records processed: 2932720
 Halting outputs: 2932719
 Non-halting records: 1
@@ -394,14 +394,31 @@ New output contributions in this file (output, log2 new contribution, log2 cumul
 000	-42.000000	-39.192645	1
 101	-42.000000	-42.000000	1
 
+=== File: 43.bin.gz (length=43) ===
+Records processed: 5481940
+Halting outputs: 5481939
+Non-halting records: 1
+Total cumulative prior log2 mass: -14.246494
+New output contributions in this file (output, log2 new contribution, log2 cumulative prior, occurrences):
+1	-20.968302	-14.571316	4287477
+0	-22.817726	-16.557879	1189789
+11	-31.457452	-27.754633	2983
+10	-33.476438	-29.613599	736
+01	-33.875879	-30.047259	558
+00	-34.415037	-31.047987	384
+111	-40.000000	-37.245112	8
+000	-41.415037	-38.912537	3
+1111	-43.000000	-43.000000	1
+
 # Final cumulative Solomonoff prior distribution
 Output	CumulativePriorLog2
-1	-14.588537
-0	-16.576830
-11	-27.869912
-10	-29.716333
-01	-30.152551
-00	-31.195062
-111	-37.476438
-000	-39.192645
+1	-14.571316
+0	-16.557879
+11	-27.754633
+10	-29.613599
+01	-30.047259
+00	-31.047987
+111	-37.245112
+000	-38.912537
 101	-42.000000
+1111	-43.000000
