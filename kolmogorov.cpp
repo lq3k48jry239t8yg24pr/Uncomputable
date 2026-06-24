@@ -150,18 +150,18 @@ int main(int argc, char* argv[]) {
         return std::get<0>(a) < std::get<0>(b);
     });
 
-    std::ofstream outfile("kolmogorov.txt");
+    std::ofstream outfile("kolmogorov.csv");
     if (!outfile.is_open()) {
-        std::cerr << "Error: could not create kolmogorov.txt\n";
+        std::cerr << "Error: could not create kolmogorov.csv\n";
         return 1;
     }
 
-    outfile << "# output\tcomplexity\texample_program\n";
+    outfile << "output,complexity,example_program\n";
     for (auto const& [output, complexity, program] : sorted_results) {
         std::string output_label = output.empty() ? "<empty>" : output;
-        outfile << output_label << '\t' << complexity << '\t' << program << '\n';
+        outfile << output_label << ',' << complexity << ',' << program << '\n';
     }
 
-    std::cout << "Wrote " << sorted_results.size() << " unique output strings to kolmogorov.txt\n";
+    std::cout << "Wrote " << sorted_results.size() << " unique output strings to kolmogorov.csv\n";
     return 0;
 }
