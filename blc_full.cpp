@@ -380,8 +380,8 @@ void generate_dfs(int n, int depth, std::string& current, const std::string& res
 }
 
 int main() {
-    int max_length = 43;
-    const int num_threads = 3;
+    int max_length = 44;
+    const int num_threads = 2;
     fs::create_directory("blc_dumps");
 
     int start_len = 1;
