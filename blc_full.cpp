@@ -546,7 +546,7 @@ int main() {
 
         if (bit_count > 0) outfile.put(current_byte << (8 - bit_count));
         outfile.close();
-        if (!compression::compress_file(filename)) {
+        if (!compression::compress_file_and_split_if_needed(filename)) {
             std::cerr << "Error: failed to compress " << filename << "\n";
             return 1;
         }

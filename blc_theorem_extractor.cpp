@@ -235,7 +235,7 @@ int main() {
     outfile << "Mathematically Sound Theorems Extracted: " << valid_theorems << "\n";
     outfile.close();
 
-    if (!compression::compress_file(theorem_path)) {
+    if (!compression::compress_file_and_split_if_needed(theorem_path)) {
         std::cerr << "Error: failed to compress theorem file " << theorem_path << "\n";
         return 1;
     }

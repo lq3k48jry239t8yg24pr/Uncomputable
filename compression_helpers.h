@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <random>
 #include <string>
+#include "file_splitter.h"
 
 namespace compression {
 namespace fs = std::filesystem;
@@ -84,6 +85,20 @@ inline bool compress_file_to_gz(const fs::path& path, const fs::path& gz_path) {
     return true;
 }
 
+inline bool compress_file_and_split_if_needed(const fs::path& path) {
+    if (!compress_file(path)) return false;
+    fs::path gz_path = path;
+    gz_path += ".gz";
+    if (fs::exists(gz_path)) {
+        std::error_code ec;
+        std::uintmax_t size = fs::file_size(gz_path, ec);
+        if (!ec && size > DEFAULT_SPLIT_THRESHOLD_BYTES) {
+            return split_file(gz_path);
+        }
+    }
+    return true;
+}
+
 inline bool decompress_gz_to_path(const fs::path& gz_path, const fs::path& out_path) {
     if (!fs::exists(gz_path)) return false;
     std::string cmd = "gzip -d -c " + escape_shell_arg(gz_path.string()) + " > " + escape_shell_arg(out_path.string());
@@ -99,12 +114,28 @@ struct DecompressedPath {
     bool remove_on_exit = false;
 
     explicit DecompressedPath(const fs::path& base_path) {
-        if (base_path.extension() == ".gz" && fs::exists(base_path)) {
-            fs::path temp_path = make_temp_filename(base_path);
-            if (!decompress_gz_to_path(base_path, temp_path)) return;
-            path = temp_path;
-            remove_on_exit = true;
-            return;
+        if (base_path.extension() == ".gz") {
+            if (fs::exists(base_path)) {
+                fs::path temp_path = make_temp_filename(base_path);
+                if (!decompress_gz_to_path(base_path, temp_path)) return;
+                path = temp_path;
+                remove_on_exit = true;
+                return;
+            }
+
+            if (has_split_chunks(base_path)) {
+                fs::path temp_archive = make_temp_filename(base_path);
+                if (!merge_split_files(base_path, temp_archive)) return;
+                fs::path temp_path = make_temp_filename(base_path);
+                if (!decompress_gz_to_path(temp_archive, temp_path)) {
+                    if (fs::exists(temp_archive)) fs::remove(temp_archive);
+                    return;
+                }
+                if (fs::exists(temp_archive)) fs::remove(temp_archive);
+                path = temp_path;
+                remove_on_exit = true;
+                return;
+            }
         }
 
         if (fs::exists(base_path)) {
@@ -113,16 +144,38 @@ struct DecompressedPath {
             return;
         }
 
-        fs::path gz_path = base_path;
-        gz_path += ".gz";
-        if (!fs::exists(gz_path)) return;
-
-        path = make_temp_filename(base_path);
-        if (!decompress_gz_to_path(gz_path, path)) {
-            path.clear();
+        if (has_split_chunks(base_path)) {
+            fs::path temp_path = make_temp_filename(base_path);
+            if (!merge_split_files(base_path, temp_path)) return;
+            path = temp_path;
+            remove_on_exit = true;
             return;
         }
-        remove_on_exit = true;
+
+        fs::path gz_path = base_path;
+        gz_path += ".gz";
+        if (fs::exists(gz_path)) {
+            path = make_temp_filename(base_path);
+            if (!decompress_gz_to_path(gz_path, path)) {
+                path.clear();
+                return;
+            }
+            remove_on_exit = true;
+            return;
+        }
+
+        if (has_split_chunks(gz_path)) {
+            fs::path temp_archive = make_temp_filename(gz_path);
+            if (!merge_split_files(gz_path, temp_archive)) return;
+            path = make_temp_filename(base_path);
+            if (!decompress_gz_to_path(temp_archive, path)) {
+                if (fs::exists(temp_archive)) fs::remove(temp_archive);
+                path.clear();
+                return;
+            }
+            if (fs::exists(temp_archive)) fs::remove(temp_archive);
+            remove_on_exit = true;
+        }
     }
 
     ~DecompressedPath() {
